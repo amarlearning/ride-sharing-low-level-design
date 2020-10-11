@@ -38,6 +38,6 @@ public interface Rider {
 	 *
 	 * @return fare.
 	 */
-	double closeRide();
+	double closeRide(int id);
 
 }

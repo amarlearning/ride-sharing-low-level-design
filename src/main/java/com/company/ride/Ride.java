@@ -21,10 +21,6 @@ public class Ride {
 		this.rideStatus = rideBuilder.rideStatus;
 	}
 
-	public int getId() {
-		return id;
-	}
-
 	public RideStatus getRideStatus() {
 		return rideStatus;
 	}

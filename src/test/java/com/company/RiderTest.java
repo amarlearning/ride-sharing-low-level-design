@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.driver.Driver;
+import com.company.exception.DuplicateRideIDException;
 import com.company.exception.InvalidRideParamException;
 import com.company.exception.RideNotFoundException;
 import com.company.exception.RideStatusException;
@@ -35,6 +36,15 @@ class RiderTest {
 			// When.
 			p1.createRide(1, 70, 60, 1);
 		});
+
+		// Given.
+		p1.createRide(1, 50, 60, 1);
+
+		// Then.
+		Assertions.assertThrows(DuplicateRideIDException.class, () -> {
+			// When.
+			p1.createRide(1, 50, 60, 1);
+		});
 	}
 
 	@Test
@@ -42,7 +52,7 @@ class RiderTest {
 
 		// Given.
 		p1.createRide(1, 10, 30, 2);
-		p1.closeRide();
+		p1.closeRide(1);
 
 		// Then.
 		Assertions.assertThrows(RideStatusException.class, () -> {
@@ -74,14 +84,14 @@ class RiderTest {
 		});
 
 		// Given.
-		p1.createRide(1, 50, 60, 1);
+		p1.createRide(2, 50, 60, 1);
 
 		// When.
-		p1.closeRide();
+		p1.closeRide(2);
 
 		// Then.
 		Assertions.assertThrows(RideStatusException.class, () -> {
-			p1.withdraw(1);
+			p1.withdraw(2);
 		});
 	}
 
@@ -96,7 +106,7 @@ class RiderTest {
 
 		// Then.
 		Assertions.assertThrows(RideStatusException.class, () -> {
-			p1.closeRide();
+			p1.closeRide(1);
 		});
 	}
 
@@ -106,12 +116,12 @@ class RiderTest {
 		p1.createRide(1, 20, 30, 2);
 
 		// Then.
-		Assertions.assertEquals(300, p1.closeRide());
+		Assertions.assertEquals(300, p1.closeRide(1));
 
 		p2.createRide(2, 5, 15, 1);
 		p2.updateRide(2, 10, 40, 2);
 
-		Assertions.assertEquals(900, p2.closeRide());
+		Assertions.assertEquals(900, p2.closeRide(2));
 	}
 
 	@Test
@@ -120,19 +130,19 @@ class RiderTest {
 		// Given.
 		IntStream.range(1, 12).forEach(i -> {
 			p1.createRide(i, i, i * 10, 1);
-			p1.closeRide();
+			p1.closeRide(i);
 		});
 
 		// When. Now after 10 rides, p1 is a priority rider.
-		p1.createRide(11, 200, 300, 1);
+		p1.createRide(13, 200, 300, 1);
 
 		// Then.
-		Assertions.assertEquals(1500, p1.closeRide());
+		Assertions.assertEquals(1500, p1.closeRide(13));
 
 		// When. Now after 10 rides, p1 is a priority rider.
-		p1.createRide(12, 50, 60, 2);
+		p1.createRide(14, 50, 60, 2);
 
 		// Then.
-		Assertions.assertEquals(200, p1.closeRide());
+		Assertions.assertEquals(200, p1.closeRide(14));
 	}
 }
