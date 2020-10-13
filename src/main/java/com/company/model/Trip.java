@@ -30,31 +30,12 @@ public class Trip {
 		this.status = TripStatus.WITHDRAWN;
 	}
 
-	public Rider getRider() {
-		return rider;
-	}
-
 	public Driver getDriver() {
 		return driver;
-	}
-
-	public int getOrigin() {
-		return origin;
-	}
-
-	public int getDestination() {
-		return destination;
-	}
-
-	public int getSeats() {
-		return seats;
 	}
 
 	public double getFare() {
 		return fare;
 	}
 
-	public TripStatus getStatus() {
-		return status;
-	}
 }

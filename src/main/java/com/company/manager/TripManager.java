@@ -1,6 +1,7 @@
 package com.company.manager;
 
 import com.company.exception.DriverNotFoundException;
+import com.company.exception.InvalidRideParamException;
 import com.company.exception.TripNotFoundException;
 import com.company.model.Driver;
 import com.company.model.Rider;
@@ -32,6 +33,9 @@ public class TripManager {
 
 	public void createTrip(Rider rider, int origin, int destination, int seats) {
 
+		if (origin >= destination)
+			throw new InvalidRideParamException("Origin should always be greater than exception, try with valid request.");
+
 		List<Driver> drivers = driverManager.getDrivers();
 
 		Optional<Driver> matchedDriver = driverMatchingStrategy.findDriver(rider, drivers, origin, destination);
@@ -57,13 +61,24 @@ public class TripManager {
 	}
 
 	public double endTrip(final Driver driver) {
+
+		double fare = 0.0;
 		if (driver.getCurrentTrip() == null)
 			throw new TripNotFoundException("Currently rider is not riding, please try again.");
 
 		driver.getCurrentTrip().endTrip();
+		fare = driver.getCurrentTrip().getFare();
 		driver.setCurrentTrip(null);
 
-		return driver.getCurrentTrip().getFare();
+		return fare;
+	}
+
+	public Driver getDriverForCurrentTripRider(final Rider rider) {
+		return this.tripHistory(rider)
+				.stream()
+				.reduce((f, s) -> s)
+				.get()
+				.getDriver();
 	}
 
 	private boolean isRiderPreferred(final Rider rider) {

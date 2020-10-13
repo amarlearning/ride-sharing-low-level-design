@@ -28,8 +28,8 @@ class RiderManagerTest {
 		Rider rider2 = riderManager.getRider(2);
 
 		// Then.
-		Assertions.assertTrue(rider1.getName().equals("Amar"));
-		Assertions.assertTrue(rider2.getName().equals("Shubham"));
+		Assertions.assertEquals("Amar", rider1.getName());
+		Assertions.assertEquals("Shubham", rider2.getName());
 
 		// Then.
 		Assertions.assertThrows(RiderNotFoundException.class, () -> {
@@ -41,13 +41,14 @@ class RiderManagerTest {
 	@Test
 	void test_createRiderWithDuplicateIdMethod() {
 		// Given.
+		Rider rider2 = new Rider(2, "Prateek");
 		riderManager.createRider(new Rider(1, "Amar"));
 		riderManager.createRider(new Rider(2, "Shubham"));
 
 		// Then.
 		Assertions.assertThrows(RiderAlreadyPresentException.class, () -> {
 			// When.
-			riderManager.createRider(new Rider(2, "Prateek"));
+			riderManager.createRider(rider2);
 		});
 	}
 
