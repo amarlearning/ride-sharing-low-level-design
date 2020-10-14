@@ -131,7 +131,7 @@ public class TripManager {
 	 * @param tripId
 	 * @return
 	 */
-	public Driver getDriverForCurrentTrip(final String tripId) {
+	public Driver getDriverForTrip(final String tripId) {
 		Optional<Trip> trip = this.trips.values()
 				.stream()
 				.flatMap(list -> list.stream())

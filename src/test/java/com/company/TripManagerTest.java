@@ -75,11 +75,11 @@ class TripManagerTest {
 	void test_endRideAndAddAcceptNewRiderRequest() {
 
 		// Given.
-		tripManager.createTrip(rider1, 20, 60, 2);
-		tripManager.createTrip(rider2, 40, 70, 2);
+		String trip1 = tripManager.createTrip(rider1, 20, 60, 2);
+		String trip2 = tripManager.createTrip(rider2, 40, 70, 2);
 
 		// End the trip of rider2 and book the ride of rider3.
-		Driver driverForRider2 = tripManager.getDriverForCurrentTripRider(rider2);
+		Driver driverForRider2 = tripManager.getDriverForTrip(trip2);
 
 		// When.
 		assertEquals(900, tripManager.endTrip(driverForRider2));
@@ -102,16 +102,16 @@ class TripManagerTest {
 
 		// When rider has completed more than 10 rides, he become preferred rider.
 		IntStream.range(1, 12).forEach(i -> {
-			tripManager.createTrip(rider1, i * 10, (i + 1) * 10, 1);
-			Driver driverForRider1 = tripManager.getDriverForCurrentTripRider(rider1);
+			String tripId = tripManager.createTrip(rider1, i * 10, (i + 1) * 10, 1);
+			Driver driverForRider1 = tripManager.getDriverForTrip(tripId);
 			tripManager.endTrip(driverForRider1);
 		});
 
 		// Then.
 		assertTrue(tripManager.tripHistory(rider1).size() == 11);
 
-		tripManager.createTrip(rider1, 10, 20, 2);
-		Driver driverForRider1 = tripManager.getDriverForCurrentTripRider(rider1);
+		String tripId = tripManager.createTrip(rider1, 10, 20, 2);
+		Driver driverForRider1 = tripManager.getDriverForTrip(tripId);
 
 		assertEquals(200, tripManager.endTrip(driverForRider1));
 	}
