@@ -4,9 +4,11 @@ import com.company.exception.RiderAlreadyPresentException;
 import com.company.exception.RiderNotFoundException;
 import com.company.manager.RiderManager;
 import com.company.model.Rider;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class RiderManagerTest {
 
@@ -28,11 +30,11 @@ class RiderManagerTest {
 		Rider rider2 = riderManager.getRider(2);
 
 		// Then.
-		Assertions.assertEquals("Amar", rider1.getName());
-		Assertions.assertEquals("Shubham", rider2.getName());
+		assertEquals("Amar", rider1.getName());
+		assertEquals("Shubham", rider2.getName());
 
 		// Then.
-		Assertions.assertThrows(RiderNotFoundException.class, () -> {
+		assertThrows(RiderNotFoundException.class, () -> {
 			// When.
 			riderManager.getRider(4);
 		});
@@ -46,7 +48,7 @@ class RiderManagerTest {
 		riderManager.createRider(new Rider(2, "Shubham"));
 
 		// Then.
-		Assertions.assertThrows(RiderAlreadyPresentException.class, () -> {
+		assertThrows(RiderAlreadyPresentException.class, () -> {
 			// When.
 			riderManager.createRider(rider2);
 		});

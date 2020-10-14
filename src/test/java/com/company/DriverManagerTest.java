@@ -4,9 +4,11 @@ import com.company.exception.DriverAlreadyPresentException;
 import com.company.exception.DriverNotFoundException;
 import com.company.manager.DriverManager;
 import com.company.model.Driver;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DriverManagerTest {
 
@@ -26,13 +28,13 @@ class DriverManagerTest {
 		driverManager.createDriver(new Driver(3, "Rajat"));
 
 		// Then.
-		Assertions.assertThrows(DriverAlreadyPresentException.class, () -> {
+		assertThrows(DriverAlreadyPresentException.class, () -> {
 			// When.
 			driverManager.createDriver(dummyDriver);
 		});
 
 		// Then.
-		Assertions.assertEquals(3, driverManager.getDrivers().size());
+		assertEquals(3, driverManager.getDrivers().size());
 	}
 
 	@Test
@@ -43,16 +45,16 @@ class DriverManagerTest {
 		driverManager.createDriver(new Driver(2, "Prateek"));
 		driverManager.createDriver(new Driver(3, "Rajat"));
 
-		Assertions.assertEquals(3, driverManager.getDrivers().size());
+		assertEquals(3, driverManager.getDrivers().size());
 
 		// When.
 		driverManager.updateDriverAvailability(3, false);
 
 		// Then.
-		Assertions.assertEquals(2, driverManager.getDrivers().size());
+		assertEquals(2, driverManager.getDrivers().size());
 
 		// Then.
-		Assertions.assertThrows(DriverNotFoundException.class, () -> {
+		assertThrows(DriverNotFoundException.class, () -> {
 			// When.
 			driverManager.updateDriverAvailability(10, false);
 		});

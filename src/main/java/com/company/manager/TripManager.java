@@ -61,7 +61,6 @@ public class TripManager {
 	}
 
 	public double endTrip(final Driver driver) {
-
 		double fare = 0.0;
 		if (driver.getCurrentTrip() == null)
 			throw new TripNotFoundException("Currently rider is not riding, please try again.");
@@ -74,11 +73,11 @@ public class TripManager {
 	}
 
 	public Driver getDriverForCurrentTripRider(final Rider rider) {
-		return this.tripHistory(rider)
+		Optional<Trip> trip = this.tripHistory(rider)
 				.stream()
-				.reduce((f, s) -> s)
-				.get()
-				.getDriver();
+				.reduce((f, s) -> s);
+
+		return trip.isPresent() ? trip.get().getDriver() : null;
 	}
 
 	private boolean isRiderPreferred(final Rider rider) {

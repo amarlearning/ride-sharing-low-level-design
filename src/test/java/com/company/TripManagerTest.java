@@ -10,11 +10,12 @@ import com.company.model.Driver;
 import com.company.model.Rider;
 import com.company.strategy.DefaultPricingStrategy;
 import com.company.strategy.OptimalDriverStrategy;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.stream.IntStream;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class TripManagerTest {
 
@@ -59,12 +60,12 @@ class TripManagerTest {
 		tripManager.createTrip(rider2, 60, 70, 2);
 
 		// Then.
-		Assertions.assertThrows(DriverNotFoundException.class, () -> {
+		assertThrows(DriverNotFoundException.class, () -> {
 			// When.
 			tripManager.createTrip(rider3, 80, 100, 2);
 		});
 
-		Assertions.assertThrows(InvalidRideParamException.class, () -> {
+		assertThrows(InvalidRideParamException.class, () -> {
 			tripManager.createTrip(rider3, 50, 40, 1);
 		});
 
@@ -81,7 +82,7 @@ class TripManagerTest {
 		Driver driverForRider2 = tripManager.getDriverForCurrentTripRider(rider2);
 
 		// When.
-		Assertions.assertEquals(900, tripManager.endTrip(driverForRider2));
+		assertEquals(900, tripManager.endTrip(driverForRider2));
 
 		// Then.
 		tripManager.createTrip(rider3, 80, 100, 2);
@@ -90,7 +91,7 @@ class TripManagerTest {
 	@Test
 	void test_getFareForDriverWhenNotRiding() {
 		// Then.
-		Assertions.assertThrows(TripNotFoundException.class, () -> {
+		assertThrows(TripNotFoundException.class, () -> {
 			// When.
 			tripManager.endTrip(driver1);
 		});
@@ -99,7 +100,7 @@ class TripManagerTest {
 	@Test
 	void test_preferredRiderFareCalculation() {
 
-		// When.
+		// When rider has completed more than 10 rides, he become preferred rider.
 		IntStream.range(1, 12).forEach(i -> {
 			tripManager.createTrip(rider1, i * 10, (i + 1) * 10, 1);
 			Driver driverForRider1 = tripManager.getDriverForCurrentTripRider(rider1);
@@ -107,12 +108,12 @@ class TripManagerTest {
 		});
 
 		// Then.
-		Assertions.assertTrue(tripManager.tripHistory(rider1).size() == 11);
+		assertTrue(tripManager.tripHistory(rider1).size() == 11);
 
 		tripManager.createTrip(rider1, 10, 20, 2);
 		Driver driverForRider1 = tripManager.getDriverForCurrentTripRider(rider1);
 
-		Assertions.assertEquals(200, tripManager.endTrip(driverForRider1));
+		assertEquals(200, tripManager.endTrip(driverForRider1));
 	}
 
 }
