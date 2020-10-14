@@ -115,5 +115,4 @@ class TripManagerTest {
 
 		assertEquals(200, tripManager.endTrip(driverForRider1));
 	}
-
 }

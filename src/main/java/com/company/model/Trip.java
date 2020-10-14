@@ -1,7 +1,10 @@
 package com.company.model;
 
+import java.util.UUID;
+
 public class Trip {
 
+	private String id;
 	private Rider rider;
 	private Driver driver;
 	private int origin;
@@ -12,6 +15,7 @@ public class Trip {
 	private TripStatus status;
 
 	public Trip(final Rider rider, final Driver driver, final int origin, final int destination, final int seats, final double fare) {
+		this.id = UUID.randomUUID().toString();
 		this.rider = rider;
 		this.driver = driver;
 		this.origin = origin;
@@ -22,12 +26,27 @@ public class Trip {
 		this.status = TripStatus.IN_PROGRESS;
 	}
 
+	public void updateTrip(final int origin, final int destination, final int seats, final double fare) {
+		this.origin = origin;
+		this.destination = destination;
+		this.seats = seats;
+		this.fare = fare;
+	}
+
 	public void endTrip() {
 		this.status = TripStatus.COMPLETED;
 	}
 
 	public void withdrawTrip() {
 		this.status = TripStatus.WITHDRAWN;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public Rider getRider() {
+		return rider;
 	}
 
 	public Driver getDriver() {
@@ -38,4 +57,7 @@ public class Trip {
 		return fare;
 	}
 
+	public TripStatus getStatus() {
+		return status;
+	}
 }
