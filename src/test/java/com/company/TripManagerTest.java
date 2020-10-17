@@ -10,6 +10,7 @@ import com.company.model.Driver;
 import com.company.model.Rider;
 import com.company.strategy.DefaultPricingStrategy;
 import com.company.strategy.OptimalDriverStrategy;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -69,6 +70,57 @@ class TripManagerTest {
 			tripManager.createTrip(rider3, 50, 40, 1);
 		});
 
+	}
+
+	@Test
+	void test_updateTripWithWrongTripId() {
+
+		// Then.
+		Assertions.assertThrows(InvalidRideParamException.class, () -> {
+			// When.
+			tripManager.updateTrip("random-id", 40, 10, 1);
+		});
+	}
+
+	@Test
+	void test_updateTripWithWrongDetails() {
+
+		// Given.
+		String tripId = tripManager.createTrip(rider1, 10, 20, 2);
+
+		// Then.
+		Assertions.assertThrows(InvalidRideParamException.class, () -> {
+			// When.
+			tripManager.updateTrip(tripId, 40, 10, 1);
+		});
+	}
+
+	@Test
+	void test_updateTripwhichIsAlreadyCompletedOrWithdrawn() {
+
+		// Given.
+		String tripId = tripManager.createTrip(rider1, 10, 20, 2);
+
+		// Then.
+		Assertions.assertThrows(InvalidRideParamException.class, () -> {
+			// When.
+			tripManager.updateTrip(tripId, 40, 10, 1);
+		});
+	}
+
+
+	@Test
+	void test_updateTripFareBasedOnNewDetails() {
+
+		// Given.
+		String tripId = tripManager.createTrip(rider1, 10, 20, 2);
+
+		// When.
+		tripManager.updateTrip(tripId, 20, 40, 1);
+		Driver driver = tripManager.getDriverForTrip(tripId);
+
+		// Then.
+		Assertions.assertEquals(400, tripManager.endTrip(driver));
 	}
 
 	@Test
