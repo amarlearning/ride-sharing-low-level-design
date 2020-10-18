@@ -96,7 +96,7 @@ class TripManagerTest {
 	}
 
 	@Test
-	void test_updateTripwhichIsAlreadyCompletedOrWithdrawn() {
+	void test_updateTripWhichIsAlreadyCompletedOrWithdrawn() {
 
 		// Given.
 		String tripId = tripManager.createTrip(rider1, 10, 20, 2);
@@ -108,7 +108,6 @@ class TripManagerTest {
 		});
 	}
 
-
 	@Test
 	void test_updateTripFareBasedOnNewDetails() {
 
@@ -117,7 +116,7 @@ class TripManagerTest {
 
 		// When.
 		tripManager.updateTrip(tripId, 20, 40, 1);
-		Driver driver = tripManager.getDriverForTrip(tripId);
+		Driver driver = tripManager.getDriverForTrip(tripId).get();
 
 		// Then.
 		Assertions.assertEquals(400, tripManager.endTrip(driver));
@@ -131,7 +130,7 @@ class TripManagerTest {
 		String trip2 = tripManager.createTrip(rider2, 40, 70, 2);
 
 		// End the trip of rider2 and book the ride of rider3.
-		Driver driverForRider2 = tripManager.getDriverForTrip(trip2);
+		Driver driverForRider2 = tripManager.getDriverForTrip(trip2).get();
 
 		// When.
 		assertEquals(900, tripManager.endTrip(driverForRider2));
@@ -155,7 +154,7 @@ class TripManagerTest {
 		// When rider has completed more than 10 rides, he become preferred rider.
 		IntStream.range(1, 12).forEach(i -> {
 			String tripId = tripManager.createTrip(rider1, i * 10, (i + 1) * 10, 1);
-			Driver driverForRider1 = tripManager.getDriverForTrip(tripId);
+			Driver driverForRider1 = tripManager.getDriverForTrip(tripId).get();
 			tripManager.endTrip(driverForRider1);
 		});
 
@@ -163,7 +162,7 @@ class TripManagerTest {
 		assertTrue(tripManager.tripHistory(rider1).size() == 11);
 
 		String tripId = tripManager.createTrip(rider1, 10, 20, 2);
-		Driver driverForRider1 = tripManager.getDriverForTrip(tripId);
+		Driver driverForRider1 = tripManager.getDriverForTrip(tripId).get();
 
 		assertEquals(200, tripManager.endTrip(driverForRider1));
 	}

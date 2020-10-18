@@ -14,7 +14,7 @@ public class Driver {
 	}
 
 	/**
-	 * Helper method to check whether driver can accept new riders or not.
+	 * Helper method to check whether driver can take new riders or not.
 	 *
 	 * @return
 	 */

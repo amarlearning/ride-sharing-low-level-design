@@ -131,14 +131,14 @@ public class TripManager {
 	 * @param tripId
 	 * @return
 	 */
-	public Driver getDriverForTrip(final String tripId) {
+	public Optional<Driver> getDriverForTrip(final String tripId) {
 		Optional<Trip> trip = this.trips.values()
 				.stream()
 				.flatMap(list -> list.stream())
 				.filter(t -> t.getId().equals(tripId))
 				.findFirst();
 
-		return trip.isPresent() ? trip.get().getDriver() : null;
+		return Optional.of(trip.get().getDriver());
 	}
 
 	/**

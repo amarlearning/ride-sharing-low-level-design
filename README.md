@@ -1,8 +1,8 @@
 # Basic Ride Sharing - Low Level System Design
 
-###### Class Diagram for low level system design of a Basic Ride Sharing
+###### Class Diagram for low level system design of a Basic Ride Sharing App.
 
-![Basic Ride Sharing image](./class%20diagram/cache-low-level-design.png)
+![Basic Ride Sharing image](./class%20diagram/basic-ride-sharing-app.png)
 
 ### Problem Statement
 
