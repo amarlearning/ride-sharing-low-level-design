@@ -1,17 +1,28 @@
 package com.company.model;
 
+import lombok.Getter;
+
 import java.util.UUID;
 
 public class Trip {
 
+	@Getter
 	private String id;
+
+	@Getter
 	private Rider rider;
+
+	@Getter
 	private Driver driver;
+
 	private int origin;
 	private int destination;
 	private int seats;
+
+	@Getter
 	private double fare;
 
+	@Getter
 	private TripStatus status;
 
 	public Trip(final Rider rider, final Driver driver, final int origin, final int destination, final int seats, final double fare) {
@@ -39,25 +50,5 @@ public class Trip {
 
 	public void withdrawTrip() {
 		this.status = TripStatus.WITHDRAWN;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public Rider getRider() {
-		return rider;
-	}
-
-	public Driver getDriver() {
-		return driver;
-	}
-
-	public double getFare() {
-		return fare;
-	}
-
-	public TripStatus getStatus() {
-		return status;
 	}
 }

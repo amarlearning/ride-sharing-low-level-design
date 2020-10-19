@@ -3,11 +3,14 @@ package com.company;
 import com.company.exception.DriverNotFoundException;
 import com.company.exception.InvalidRideParamException;
 import com.company.exception.TripNotFoundException;
+import com.company.exception.TripStatusException;
 import com.company.manager.DriverManager;
 import com.company.manager.RiderManager;
 import com.company.manager.TripManager;
 import com.company.model.Driver;
 import com.company.model.Rider;
+import com.company.model.Trip;
+import com.company.model.TripStatus;
 import com.company.strategy.DefaultPricingStrategy;
 import com.company.strategy.OptimalDriverStrategy;
 import org.junit.jupiter.api.Assertions;
@@ -100,11 +103,13 @@ class TripManagerTest {
 
 		// Given.
 		String tripId = tripManager.createTrip(rider1, 10, 20, 2);
+		Driver driver = tripManager.getDriverForTrip(tripId).get();
+		tripManager.endTrip(driver);
 
 		// Then.
-		Assertions.assertThrows(InvalidRideParamException.class, () -> {
+		Assertions.assertThrows(TripStatusException.class, () -> {
 			// When.
-			tripManager.updateTrip(tripId, 40, 10, 1);
+			tripManager.updateTrip(tripId, 10, 50, 1);
 		});
 	}
 
@@ -120,6 +125,63 @@ class TripManagerTest {
 
 		// Then.
 		Assertions.assertEquals(400, tripManager.endTrip(driver));
+	}
+
+	@Test
+	void test_updateTripWithInvalidTripId() {
+
+		// Then.
+		Assertions.assertThrows(TripNotFoundException.class, () -> {
+			// When.
+			tripManager.updateTrip("1234", 10, 20, 2);
+		});
+	}
+
+
+	@Test
+	void test_withdrawTrip() {
+
+		// Given.
+		String tripId = tripManager.createTrip(rider1, 10, 20, 2);
+
+		// When.
+		tripManager.withdrawTrip(tripId);
+		Trip trip = tripManager.tripHistory(rider1)
+				.parallelStream()
+				.filter(t -> t.getId().equals(tripId))
+				.findAny()
+				.get();
+
+		// Then.
+		Assertions.assertEquals(TripStatus.WITHDRAWN, trip.getStatus());
+	}
+
+	@Test
+	void test_withdrawTripWithInvalidTripId() {
+
+		// Given.
+		String tripId = tripManager.createTrip(rider1, 10, 20, 2);
+
+		// Then.
+		Assertions.assertThrows(TripNotFoundException.class, () -> {
+			// When.
+			tripManager.withdrawTrip("randomId");
+		});
+	}
+
+	@Test
+	void test_withdrawTripWhichIsAlreadyCompleted() {
+
+		// Given.
+		String tripId = tripManager.createTrip(rider1, 10, 20, 2);
+		Driver driver = tripManager.getDriverForTrip(tripId).get();
+		tripManager.endTrip(driver);
+
+		// Then.
+		Assertions.assertThrows(TripStatusException.class, () -> {
+			// When.
+			tripManager.withdrawTrip(tripId);
+		});
 	}
 
 	@Test

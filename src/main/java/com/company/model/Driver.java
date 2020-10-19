@@ -1,10 +1,20 @@
 package com.company.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class Driver {
 
 	private final String name;
+
+	@Getter
 	private int id;
+
+	@Getter
+	@Setter
 	private Trip currentTrip;
+
+	@Setter
 	private boolean isAcceptingRider;
 
 	public Driver(int id, String name) {
@@ -22,19 +32,4 @@ public class Driver {
 		return this.isAcceptingRider && this.currentTrip == null;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public Trip getCurrentTrip() {
-		return currentTrip;
-	}
-
-	public void setCurrentTrip(Trip currentTrip) {
-		this.currentTrip = currentTrip;
-	}
-
-	public void setAcceptingRider(boolean acceptingRider) {
-		isAcceptingRider = acceptingRider;
-	}
 }
