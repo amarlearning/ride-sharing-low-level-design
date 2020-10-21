@@ -8,6 +8,5 @@ import java.util.Optional;
 
 public interface DriverMatchingStrategy {
 
-	Optional<Driver> findDriver(Rider rider, List<Driver> nearByDrivers, int origin, int destination);
-
+  Optional<Driver> findDriver(Rider rider, List<Driver> nearByDrivers, int origin, int destination);
 }

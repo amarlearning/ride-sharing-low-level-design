@@ -5,31 +5,26 @@ import lombok.Setter;
 
 public class Driver {
 
-	private final String name;
+  private final String name;
 
-	@Getter
-	private int id;
+  @Getter private int id;
 
-	@Getter
-	@Setter
-	private Trip currentTrip;
+  @Getter @Setter private Trip currentTrip;
 
-	@Setter
-	private boolean isAcceptingRider;
+  @Setter private boolean isAcceptingRider;
 
-	public Driver(int id, String name) {
-		this.id = id;
-		this.name = name;
-		this.isAcceptingRider = true;
-	}
+  public Driver(int id, String name) {
+    this.id = id;
+    this.name = name;
+    this.isAcceptingRider = true;
+  }
 
-	/**
-	 * Helper method to check whether driver can take new riders or not.
-	 *
-	 * @return
-	 */
-	public boolean isAvailable() {
-		return this.isAcceptingRider && this.currentTrip == null;
-	}
-
+  /**
+   * Helper method to check whether driver can take new riders or not.
+   *
+   * @return
+   */
+  public boolean isAvailable() {
+    return this.isAcceptingRider && this.currentTrip == null;
+  }
 }
