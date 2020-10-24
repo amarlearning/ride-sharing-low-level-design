@@ -21,4 +21,4 @@ jobs:
       with:
         java-version: 9
     - name: Build with Maven
-      run: mvn test --file pom.xml
+      run: mvn test verify package --file pom.xml
